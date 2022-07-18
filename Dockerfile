@@ -21,12 +21,12 @@ USER wine
 WORKDIR /home/wine/
 
 RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4oldsetup.exe" -O ~/mt4setup.exe
-RUN WINEPREFIX=~/.mt4 WINEARCH=win32 winecfg -v=win10
-RUN WINEPREFIX=~/.mt4 WINEARCH=win32 wine ~/mt4setup.exe
-RUN mkdir -p ~/.mt4/drive_c/mt4
+RUN WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 winecfg -v=win10
+RUN WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/mt4setup.exe
+RUN mkdir -p /home/wine/.mt4/drive_c/mt4
 
-COPY mt4/metaeditor.exe ~/.mt4/drive_c/mt4/metaeditor.exe
-COPY mt4-zmq/Include ~/.mt4/drive_c/mt4/Include
+COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
+COPY mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
 
 #COPY src/copier/copier.mq4 ./.mt4/drive_c/mt4/copier.mq4
 #COPY src/operator/operator.mq4 ./.mt4/drive_c/mt4/operator.mq4
