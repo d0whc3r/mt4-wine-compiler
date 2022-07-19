@@ -2,7 +2,7 @@ FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get -yq upgrade && apt-get -yq install wget dos2unix
+RUN apt-get update && apt-get -yq upgrade && apt-get -yq install wget dos2unix sudo
 RUN dpkg --add-architecture i386
 RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key -O /usr/share/keyrings/winehq-archive.key && \
     wget -nc https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources -O /etc/apt/sources.list.d/winehq-jammy.sources
@@ -10,7 +10,9 @@ RUN apt-get update && apt-get -yq --install-recommends install winehq-devel
 
 RUN groupadd -g 1001 wine \
 	&& useradd -g wine -u 1001 wine \
-	&& mkdir -p /home/wine/.wine && chown -R wine:wine /home/wine
+	&& mkdir -p /home/wine/.wine && chown -R wine:wine /home/wine \
+
+RUN usermod -aG sudo wine
 
 USER wine
 WORKDIR /home/wine/
