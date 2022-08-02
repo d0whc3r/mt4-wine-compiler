@@ -33,3 +33,4 @@ RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4olds
 
 COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
 COPY mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
+RUN sudo chown -R wine:wine /home/wine/.mt4/drive_c/mt4
