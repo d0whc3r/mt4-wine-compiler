@@ -25,12 +25,12 @@ RUN groupadd -g 1001 wine && \
 USER wine
 WORKDIR /home/wine/
 
-RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4oldsetup.exe" -O ~/mt4setup.exe && \
+RUN wget "https://download.mql5.com/cdn/web/oanda.corporation/mt4/oanda4setup.exe" -O ~/oanda4setup.exe && \
     WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 winecfg -v=win10 && \
-    WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/mt4setup.exe && \
+    WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/oanda4setup.exe && \
     mkdir -p /home/wine/.mt4/drive_c/mt4 && \
-    rm -rf /home/wine/mt4setup.exe .cache .wget-hsts
+    rm -rf /home/wine/oanda4setup.exe .cache .wget-hsts
 
-COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
+COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/oanda4setup.exe
 COPY mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
 RUN sudo chown -R wine:wine /home/wine/.mt4/drive_c/mt4
