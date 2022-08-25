@@ -33,7 +33,7 @@ RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4olds
 
 COPY --chown=wine:wine mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
 COPY --chown=wine:wine mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
-COPY --chown=wine:wine mql4-lib /home/wine/.mt4/drive_c/mt4/Include
-RUN rm -fr /home/wine/.mt4/drive_c/mt4/Include/.git* && \
-    rm -fr /home/wine/.mt4/drive_c/mt4/Include/README.md && \
-    rm -fr /home/wine/.mt4/drive_c/mt4/Include/LICENSE
+COPY --chown=wine:wine mql4-lib /home/wine/.mt4/drive_c/mt4/Include/Mql
+RUN rm -fr /home/wine/.mt4/drive_c/mt4/Include/Mql/.git* && \
+    rm -fr /home/wine/.mt4/drive_c/mt4/Include/Mql/README.md && \
+    rm -fr /home/wine/.mt4/drive_c/mt4/Include/Mql/LICENSE
