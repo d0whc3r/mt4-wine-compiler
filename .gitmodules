@@ -1,3 +1,6 @@
 [submodule "mql4-lib"]
 	path = mql4-lib
 	url = https://github.com/dingmaotu/mql4-lib.git
+[submodule "mql-zmq"]
+	path = mql-zmq
+	url = https://github.com/dingmaotu/mql-zmq
