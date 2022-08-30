@@ -3,7 +3,7 @@ FROM ubuntu:jammy
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get -yq install wget dos2unix sudo apt-utils && \
+    apt-get -yq install wget dos2unix sudo apt-utils git && \
     apt-get -yq upgrade
 
 RUN dpkg --add-architecture i386
