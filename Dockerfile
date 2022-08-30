@@ -31,4 +31,9 @@ RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4olds
     mkdir -p /home/wine/.mt4/drive_c/mt4 && \
     rm -rf /home/wine/mt4setup.exe .cache .wget-hsts
 
+# The compiler
 COPY --chown=wine:wine mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
+# and part of the SDK that comes with mt-terminal
+COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Include    /home/wine/.mt4/drive_c/mt4/Include
+COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Indicators /home/wine/.mt4/drive_c/mt4/Indicators
+COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Libraries  /home/wine/.mt4/drive_c/mt4/Libraries
