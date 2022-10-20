@@ -1,15 +1,16 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get -yq install wget dos2unix 
-RUN   apt-get  install apt-utils
+RUN apt-get update 
+RUN   apt install apt-utils
+RUN    apt-get -yq install wget dos2unix 
+
 RUN   apt-get -yq upgrade
 
 RUN sudo dpkg --add-architecture i386 
 RUN sudo mkdir -pm755 /etc/apt/keyrings
 RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources \
-   apt install --install-recommends winehq-stable
+RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources 
+RUN   apt install --install-recommends winehq-stable
 
 RUN apt-get update \
 apt-get clean && \
