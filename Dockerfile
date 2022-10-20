@@ -1,7 +1,5 @@
 FROM ubuntu:latest
-
 ENV DEBIAN_FRONTEND=noninteractive
-
 RUN apt-get update && \
     apt-get -yq install wget dos2unix sudo apt-utils && \
     apt-get -yq upgrade
@@ -24,7 +22,6 @@ RUN groupadd -g 1001 wine && \
 
 USER wine
 WORKDIR /home/wine/
-
 RUN wget "https://download.mql5.com/cdn/web/oanda.corporation/mt4/oanda4setup.exe" -O ~/oanda4setup.exe && \
     WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 winecfg -v=win10 && \
     WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/oanda4setup.exe && \
@@ -34,5 +31,3 @@ RUN wget "https://download.mql5.com/cdn/web/oanda.corporation/mt4/oanda4setup.ex
 COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/oanda4setup.exe
 COPY mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
 RUN sudo chown -R wine:wine /home/wine/.mt4/drive_c/mt4
-RUN cd /home/wine/.mt4/drive_c/mt4
-CMD echo oanda4setup.exe
