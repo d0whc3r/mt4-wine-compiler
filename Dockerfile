@@ -33,5 +33,6 @@ RUN wget "https://www1.oanda.com/metatrader/oanda4setup.exe" -O ~/oanda4setup.ex
     rm -rf /home/wine/oanda4setup.exe .cache .wget-hsts
 COPY mt4/metaeditor.exe   /home/wine/.mt4/drive_c/mt4/oanda4setup.exe
 COPY mt4-zmq/Include     /home/wine/.mt4/drive_c/mt4/Include
-RUN sudo chown -R wine:wine    /home/wine/.mt4/drive_c/mt4
+#RUN chmod 777 wine:wine    /home/wine/.mt4/drive_c/mt4
+#RUN sudo chown -R wine:wine    /home/wine/.mt4/drive_c/mt4
 RUN wine oanda.exe
