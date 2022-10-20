@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update 
-RUN   apt install apt-utils
+RUN   apt-get install apt-utils
 RUN    apt-get -yq install wget dos2unix 
 
 RUN   apt-get -yq upgrade
