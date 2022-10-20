@@ -1,8 +1,9 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get -yq install wget dos2unix sudo apt-utils && \
-    apt-get -yq upgrade
+    apt-get -yq install wget dos2unix 
+RUN   ap-get  install apt-utils
+RUN   apt-get -yq upgrade
 
 RUN sudo dpkg --add-architecture i386 
 RUN sudo mkdir -pm755 /etc/apt/keyrings
