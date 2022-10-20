@@ -4,13 +4,14 @@ RUN apt-get update && \
     apt-get -yq install wget dos2unix sudo apt-utils && \
     apt-get -yq upgrade
 
-RUN dpkg --add-architecture i386
-RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key -O /usr/share/keyrings/winehq-archive.key && \
-    wget -nc https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources -O /etc/apt/sources.list.d/winehq-jammy.sources
-RUN apt-get update && \
-    apt-get -yq --install-recommends install winehq-devel
+RUN sudo dpkg --add-architecture i386 
+RUN sudo mkdir -pm755 /etc/apt/keyrings
+RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+RUN sudo apt install --install-recommends winehq-stable
 
-RUN apt-get clean && \
+RUN apt-get update \
+apt-get clean && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 RUN groupadd -g 1001 wine && \
@@ -22,7 +23,7 @@ RUN groupadd -g 1001 wine && \
 
 USER wine
 WORKDIR /home/wine/
-RUN wget "https://download.mql5.com/cdn/web/oanda.corporation/mt4/oanda4setup.exe" -O ~/oanda4setup.exe && \
+RUN wget "https://www1.oanda.com/metatrader/oanda4setup.exe" -O ~/oanda4setup.exe && \
     WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 winecfg -v=win10 && \
     WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/oanda4setup.exe && \
     mkdir -p /home/wine/.mt4/drive_c/mt4 && \
