@@ -34,3 +34,5 @@ RUN wget "https://download.mql5.com/cdn/web/oanda.corporation/mt4/oanda4setup.ex
 COPY mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/oanda4setup.exe
 COPY mt4-zmq/Include /home/wine/.mt4/drive_c/mt4/Include
 RUN sudo chown -R wine:wine /home/wine/.mt4/drive_c/mt4
+RUN cd /home/wine/.mt4/drive_c/mt4
+CMD echo oanda4setup.exe
