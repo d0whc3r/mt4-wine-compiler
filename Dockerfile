@@ -14,7 +14,7 @@ RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/d
 RUN apt-get update 
 RUN apt-get install -y --install-recommends winehq-staging
  
-RUN apt-get clean && 
+RUN apt-get clean 
 RUN    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 RUN groupadd -g 1001 wine && \
