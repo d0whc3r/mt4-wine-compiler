@@ -5,18 +5,16 @@ RUN   apt-get install apt-utils -y
 RUN    apt-get -yq install wget dos2unix 
 
 RUN   apt-get -yq upgrade
-
-RUN  sudo dpkg --add-architecture i386 \
- mkdir -pm755 /etc/apt/keyrings 
+RUN  sudo dpkg --add-architecture i386 
+RUN  mkdir -pm755 /etc/apt/keyrings 
 RUN wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 
 
-RUN  mkdir -pm755 /etc/apt/keyrings \
+RUN  mkdir -pm755 /etc/apt/keyrings 
+RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
 
-wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
-
-RUN apt-get update \ 
-apt install --install-recommends winehq-staging
+RUN apt-get update 
+RUN apt-get install --install-recommends winehq-staging
  
 RUN apt-get clean && 
 RUN    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
