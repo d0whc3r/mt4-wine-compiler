@@ -7,7 +7,6 @@ RUN   apt-get -yq upgrade
 RUN  dpkg --add-architecture i386 
 RUN  mkdir -pm755 /etc/apt/keyrings 
 RUN wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-
 RUN  mkdir -pm755 /etc/apt/keyrings 
 RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
 
@@ -33,5 +32,5 @@ RUN wget "https://www1.oanda.com/metatrader/oanda4setup.exe" -O ~/oanda4setup.ex
     rm -rf /home/wine/oanda4setup.exe .cache .wget-hsts
 COPY mt4/metaeditor.exe   /home/wine/.mt4/drive_c/mt4/oanda4setup.exe
 COPY mt4-zmq/Include     /home/wine/.mt4/drive_c/mt4/Include
-#RUN chmod 777 wine:wine    /home/wine/.mt4/drive_c/mt4
-#RUN sudo chown -R wine:wine    /home/wine/.mt4/drive_c/mt4
+RUN chmod 777 wine:wine    /home/wine/.mt4/drive_c/mt4
+RUN sudo chown -R wine:wine    /home/wine/.mt4/drive_c/mt4
