@@ -1,0 +1,28 @@
+{
+  "name": "mt4-wine-compiler",
+  "version": "1.0.0",
+  "description": "Docker image to compile MT4 .mq4 files using Wine",
+  "author": "d0whc3r",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d0whc3r/mt4-wine-compiler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d0whc3r/mt4-wine-compiler/issues"
+  },
+  "homepage": "https://github.com/d0whc3r/mt4-wine-compiler#readme",
+  "scripts": {
+    "test": "docker build -t mt4-compiler-test . && bats --show-output-of-passing-tests tests/test.bats"
+  },
+  "keywords": [
+    "mt4",
+    "mql4",
+    "compiler",
+    "wine",
+    "docker"
+  ],
+  "devDependencies": {
+    "bats": "1.13.0"
+  }
+}

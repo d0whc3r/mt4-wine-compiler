@@ -1,2 +1,4 @@
 .idea
 .history
+node_modules
+tests/*.ex4
