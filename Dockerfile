@@ -1,39 +1,53 @@
-FROM ubuntu:jammy
+FROM --platform=linux/amd64 ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get -yq install wget dos2unix sudo apt-utils git && \
-    apt-get -yq upgrade
+# Install dependencies and Wine
+# We use a single RUN instruction to reduce layers and clean up in the same step
+RUN dpkg --add-architecture i386 && \
+    mkdir -pm755 /etc/apt/keyrings && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    wget \
+    ca-certificates \
+    gnupg \
+    xvfb \
+    winbind \
+    cabextract && \
+    wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources && \
+    apt-get update && \
+    apt-get install -y --install-recommends winehq-stable && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN dpkg --add-architecture i386
-RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key -O /usr/share/keyrings/winehq-archive.key && \
-    wget -nc https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources -O /etc/apt/sources.list.d/winehq-jammy.sources
-RUN apt-get update && \
-    apt-get -yq --install-recommends install winehq-devel
-
-RUN apt-get clean && \
-    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
-
+# Create wine user
 RUN groupadd -g 1001 wine && \
-    useradd -g wine -u 1001 wine && \
-    usermod -aG sudo wine && \
-    mkdir -p /home/wine && \
-    chown -R wine:wine /home/wine && \
-    echo "wine ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    useradd -g wine -u 1001 -m -s /bin/bash wine && \
+    mkdir -p /home/wine/.mt4/drive_c/mt4 && \
+    chown -R wine:wine /home/wine
 
 USER wine
-WORKDIR /home/wine/
+WORKDIR /home/wine
 
-RUN wget "https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4oldsetup.exe" -O ~/mt4setup.exe && \
-    WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 winecfg -v=win10 && \
-    WINEPREFIX=/home/wine/.mt4 WINEARCH=win32 wine /home/wine/mt4setup.exe && \
-    mkdir -p /home/wine/.mt4/drive_c/mt4 && \
-    rm -rf /home/wine/mt4setup.exe .cache .wget-hsts
+# Initialize Wine prefix
+ENV WINEPREFIX=/home/wine/.mt4
+ENV WINEARCH=win32
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
 
-# The compiler
+# Run winecfg to initialize the prefix (headless)
+RUN xvfb-run -a winecfg -v=win10 && \
+    wineserver -w
+
+# Copy MT4 files
+# We assume the context has the 'mt4' directory with metaeditor.exe and sdk
 COPY --chown=wine:wine mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
-# and part of the SDK that comes with mt-terminal
 COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Include    /home/wine/.mt4/drive_c/mt4/Include
 COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Indicators /home/wine/.mt4/drive_c/mt4/Indicators
 COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Libraries  /home/wine/.mt4/drive_c/mt4/Libraries
+
+# Copy entrypoint script
+COPY --chown=wine:wine entrypoint.sh /home/wine/entrypoint.sh
+RUN chmod +x /home/wine/entrypoint.sh
+
+ENTRYPOINT ["/home/wine/entrypoint.sh"]

@@ -1,0 +1,17 @@
+services:
+  compiler:
+    image: ghcr.io/d0whc3r/mt4-wine-compiler:master
+    # Override entrypoint to run custom build script
+    entrypoint: [ "/bin/bash" ]
+    command: [ "/home/wine/scripts/build_project.sh" ]
+    volumes:
+      # Mount your project directory
+      - ./project:/home/wine/project
+      # Mount your build scripts
+      - ./scripts:/home/wine/scripts
+      # Mount output directory for compiled files
+      - ./artifacts:/home/wine/artifacts
+    environment:
+      # Optional: Set Wine environment variables if needed
+      - WINEPREFIX=/home/wine/.mt4
+      - WINEARCH=win32
