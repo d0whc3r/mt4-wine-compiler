@@ -3,6 +3,8 @@
 IMAGE_NAME="mt4-compiler-test"
 
 setup() {
+    chmod o+w tests
+    rm -f tests/*.ex4
     # Build image before tests to ensure it exists and is up to date
     # We rely on Docker caching to make this fast if already built
     if [[ -z "${SKIP_BUILD}" ]]; then
@@ -11,21 +13,24 @@ setup() {
     fi
 }
 
+teardown() {
+    rm -f tests/*.ex4
+}
+
 @test "Success Case: Compile valid MQ4 file" {
-    rm -f tests/Success.ex4
     run docker run --rm -v "$(pwd)/tests:/home/wine/tests" "$IMAGE_NAME" /home/wine/tests/Success.mq4
     
     echo "$output"
+    [[ "$output" =~ "Compilation successful." ]]
     [ "$status" -eq 0 ]
     [ -f "tests/Success.ex4" ]
-    rm tests/Success.ex4
 }
 
 @test "Failure Case: Compile invalid MQ4 file" {
-    rm -f tests/Fail.ex4
     run docker run --rm -v "$(pwd)/tests:/home/wine/tests" "$IMAGE_NAME" /home/wine/tests/Fail.mq4
-    
+
     echo "$output"
+    [[ "$output" =~ "Compilation failed." ]]
     [ "$status" -ne 0 ]
     [ ! -f "tests/Fail.ex4" ]
 }

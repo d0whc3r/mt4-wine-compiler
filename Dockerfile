@@ -42,9 +42,9 @@ RUN xvfb-run -a winecfg -v=win10 && \
 # Copy MT4 files
 # We assume the context has the 'mt4' directory with metaeditor.exe and sdk
 COPY --chown=wine:wine mt4/metaeditor.exe /home/wine/.mt4/drive_c/mt4/metaeditor.exe
-COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Include    /home/wine/.mt4/drive_c/mt4/Include
-COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Indicators /home/wine/.mt4/drive_c/mt4/Indicators
-COPY --chown=wine:wine mt4/sdk/4.0_build-1356/Libraries  /home/wine/.mt4/drive_c/mt4/Libraries
+COPY --chown=wine:wine mt4/sdk/4.0_build-1443/Include    /home/wine/.mt4/drive_c/mt4/Include
+COPY --chown=wine:wine mt4/sdk/4.0_build-1443/Indicators /home/wine/.mt4/drive_c/mt4/Indicators
+COPY --chown=wine:wine mt4/sdk/4.0_build-1443/Libraries  /home/wine/.mt4/drive_c/mt4/Libraries
 
 # Copy entrypoint script
 COPY --chown=wine:wine entrypoint.sh /home/wine/entrypoint.sh
