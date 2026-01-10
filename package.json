@@ -25,5 +25,5 @@
   "devDependencies": {
     "bats": "1.13.0"
   },
-  "packageManager": "pnpm@10.27.0"
+  "packageManager": "pnpm@10.28.0"
 }
