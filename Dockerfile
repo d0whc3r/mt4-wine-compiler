@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ubuntu:noble
+FROM --platform=linux/amd64 ubuntu:resolute
 
 ENV DEBIAN_FRONTEND=noninteractive
 
